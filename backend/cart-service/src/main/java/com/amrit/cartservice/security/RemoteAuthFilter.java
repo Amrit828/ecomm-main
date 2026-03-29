@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +28,9 @@ public class RemoteAuthFilter extends OncePerRequestFilter {
 
     private final RestTemplate restTemplate;
 
+    @Value("${auth.service.url:http://localhost:8081}")
+    private String authServiceUrl;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -44,7 +48,7 @@ public class RemoteAuthFilter extends OncePerRequestFilter {
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
             ResponseEntity<Map<String, String>> res = restTemplate.exchange(
-                    "http://localhost:8081/auth/validate",
+                    authServiceUrl + "/auth/validate",
                     HttpMethod.GET,
                     entity,
                     new ParameterizedTypeReference<Map<String, String>>() {}
