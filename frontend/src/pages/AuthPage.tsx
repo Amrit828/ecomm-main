@@ -44,9 +44,11 @@ export default function AuthPage() {
         navigate(info.role === "SELLER" ? "/seller/dashboard" : "/products");
       } else {
         const res = await authApi.register({ ...form, role });
+        localStorage.setItem("ecomm_token", res.token);
+        const info = await authApi.validate();
         login(res.token, {
-          userId: "",
-          role,
+          userId: info.userId,
+          role: info.role as Role,
           email: form.email,
           firstName: form.firstName || form.email.split("@")[0],
         });
