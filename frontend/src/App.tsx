@@ -36,7 +36,7 @@ function AppRoutes() {
             element={
               isAuthenticated
                 ? <Navigate to={user?.role === "SELLER" ? "/seller/dashboard" : "/products"} replace />
-                : <Navigate to="/login" replace />
+                : <Navigate to="/products" replace />
             }
           />
 
@@ -44,9 +44,9 @@ function AppRoutes() {
           <Route path="/login" element={isAuthenticated ? <Navigate to="/" replace /> : <AuthPage />} />
           <Route path="/register" element={isAuthenticated ? <Navigate to="/" replace /> : <AuthPage />} />
 
-          {/* Buyer routes */}
-          <Route path="/products" element={<ProtectedRoute role="BUYER"><ProductsPage /></ProtectedRoute>} />
-          <Route path="/products/:id" element={<ProtectedRoute role="BUYER"><ProductDetailPage /></ProtectedRoute>} />
+          {/* Buyer routes — products are public, cart/checkout/orders require auth */}
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/:id" element={<ProductDetailPage />} />
           <Route path="/cart" element={<ProtectedRoute role="BUYER"><CartPage /></ProtectedRoute>} />
           <Route path="/checkout" element={<ProtectedRoute role="BUYER"><CheckoutPage /></ProtectedRoute>} />
           <Route path="/orders" element={<ProtectedRoute role="BUYER"><OrdersPage /></ProtectedRoute>} />

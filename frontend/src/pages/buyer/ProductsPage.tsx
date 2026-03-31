@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart, Search, SlidersHorizontal, Star } from "lucide-react";
 import { productApi, cartApi, type Product } from "@/lib/api";
+import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Badge, Spinner } from "@/components/ui/Misc";
@@ -20,6 +21,7 @@ function getEmoji(name: string) {
 
 export default function ProductsPage() {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [filtered, setFiltered] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
@@ -50,6 +52,10 @@ export default function ProductsPage() {
   };
 
   const handleAddToCart = async (productId: string, name: string) => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     setAddingId(productId);
     try {
       await cartApi.addItem(productId, 1);

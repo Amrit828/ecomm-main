@@ -212,6 +212,20 @@ export default function AuthPage() {
               {mode === "login" ? "Sign up" : "Sign in"}
             </button>
           </p>
+
+          <div className="relative my-4">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-200" />
+            </div>
+            <div className="relative flex justify-center text-xs text-gray-400 bg-gray-50 px-2 w-fit mx-auto">or</div>
+          </div>
+
+          <button
+            onClick={() => navigate("/products")}
+            className="w-full py-2.5 text-sm text-gray-500 hover:text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+          >
+            Continue as guest
+          </button>
         </div>
       </div>
     </div>
