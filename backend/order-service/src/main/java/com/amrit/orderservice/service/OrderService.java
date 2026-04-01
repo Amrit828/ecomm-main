@@ -72,7 +72,10 @@ public class OrderService {
 
                 Map<String, Object> product = productResponse.getBody();
                 if (product != null) {
-                    double price = ((Number) product.get("price")).doubleValue();
+                    double rawPrice = ((Number) product.get("price")).doubleValue();
+                    Object discountObj = product.get("discount");
+                    double discount = discountObj != null ? ((Number) discountObj).doubleValue() : 0.0;
+                    double price = discount > 0 ? rawPrice * (1 - discount / 100.0) : rawPrice;
                     String sellerId = (String) product.get("sellerId");
 
                     String productName = (String) product.get("name");
