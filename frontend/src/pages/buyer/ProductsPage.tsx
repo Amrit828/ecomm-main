@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart, Search, SlidersHorizontal, Star } from "lucide-react";
-import { productApi, cartApi, type Product } from "@/lib/api";
+import { productApi, tagApi, cartApi, type Product, type Tag } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Badge, Spinner } from "@/components/ui/Misc";
-
-const CATEGORIES = ["All", "Electronics", "Fashion", "Books", "Home", "Sports"];
 
 function getEmoji(name: string) {
   const n = name.toLowerCase();
@@ -24,6 +22,7 @@ export default function ProductsPage() {
   const { isAuthenticated } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [filtered, setFiltered] = useState<Product[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [loading, setLoading] = useState(true);
@@ -31,8 +30,12 @@ export default function ProductsPage() {
   const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
-    productApi.getAll()
-      .then(data => { setProducts(data); setFiltered(data); })
+    Promise.all([productApi.getAll(), tagApi.getAll()])
+      .then(([products, tags]) => {
+        setProducts(products);
+        setFiltered(products);
+        setTags(tags);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
@@ -41,7 +44,7 @@ export default function ProductsPage() {
     const q = search.toLowerCase();
     setFiltered(products.filter(p => {
       const matchesSearch = p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q);
-      const matchesCategory = category === "All" || p.name.toLowerCase().includes(category.toLowerCase()) || p.description.toLowerCase().includes(category.toLowerCase());
+      const matchesCategory = category === "All" || p.tags?.includes(category) || false;
       return matchesSearch && matchesCategory;
     }));
   }, [search, category, products]);
@@ -96,17 +99,27 @@ export default function ProductsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         {/* Category pills */}
         <div className="flex gap-2 mb-6 overflow-x-auto pb-1">
-          {CATEGORIES.map(c => (
+          <button
+            onClick={() => setCategory("All")}
+            className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border transition-all cursor-pointer ${
+              category === "All"
+                ? "bg-green-600 text-white border-green-600"
+                : "bg-white text-gray-600 border-gray-200 hover:border-green-300 hover:text-green-700"
+            }`}
+          >
+            All
+          </button>
+          {tags.map(tag => (
             <button
-              key={c}
-              onClick={() => setCategory(c)}
+              key={tag.id}
+              onClick={() => setCategory(tag.name)}
               className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium border transition-all cursor-pointer ${
-                category === c
+                category === tag.name
                   ? "bg-green-600 text-white border-green-600"
                   : "bg-white text-gray-600 border-gray-200 hover:border-green-300 hover:text-green-700"
               }`}
             >
-              {c}
+              {tag.name}
             </button>
           ))}
           <div className="shrink-0 ml-auto">
