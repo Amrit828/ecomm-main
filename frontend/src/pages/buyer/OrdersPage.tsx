@@ -31,7 +31,8 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 animate-fade-in">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0f0f13]">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 animate-fade-in">
       <h1 className="text-3xl font-bold text-gray-900 dark:text-slate-100 mb-6">My Orders</h1>
 
       {orders.length === 0 ? (
@@ -94,6 +95,7 @@ export default function OrdersPage() {
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 }

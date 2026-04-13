@@ -71,7 +71,7 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0f0f13]">
       {/* Toast */}
       {toast && (
         <div className="fixed top-20 right-4 z-50 bg-white border border-green-200 rounded-lg px-4 py-3 text-sm text-green-700 shadow-lg flex items-center gap-2 animate-slide-down">

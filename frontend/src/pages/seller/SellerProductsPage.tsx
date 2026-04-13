@@ -206,7 +206,8 @@ export default function SellerProductsPage() {
   const lowStock = products.filter(p => p.stock <= 5);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 animate-fade-in">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0f0f13]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 animate-fade-in">
       {modal.open && (
         <ProductModal
           product={modal.product}
@@ -325,6 +326,7 @@ export default function SellerProductsPage() {
           </div>
         </Card>
       )}
+      </div>
     </div>
   );
 }

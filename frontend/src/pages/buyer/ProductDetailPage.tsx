@@ -73,7 +73,8 @@ export default function ProductDetailPage() {
     : product.price;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 animate-fade-in">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0f0f13]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 animate-fade-in">
       {/* Toast */}
       {toast && (
         <div className="fixed top-20 right-4 z-50 bg-white dark:bg-[#1a1a24] border border-green-200 dark:border-green-800 rounded-lg px-4 py-3 text-sm text-green-700 dark:text-green-400 shadow-lg flex items-center gap-2 animate-slide-down">
@@ -177,6 +178,7 @@ export default function ProductDetailPage() {
             </Button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

@@ -61,7 +61,8 @@ export default function SellerOrdersPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 animate-fade-in">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0f0f13]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 animate-fade-in">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-slate-100">Order Fulfillment</h1>
@@ -152,6 +153,7 @@ export default function SellerOrdersPage() {
           })}
         </div>
       )}
+      </div>
     </div>
   );
 }
